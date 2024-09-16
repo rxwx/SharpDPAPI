@@ -81,6 +81,8 @@ Encryption:
         /output                                         -   the output file the encrypted blob will be written to
         /mkfile                                         -   the path to the masterkey file to use for encryption 
         /password                                       -   the password, or password hash (SHA1 or NTLM) to decrypt the masterkey file
+        /local                                          -   encrypt the data with the local machine context instead of the user (requires SYSTEM DPAPI key)
+        /sid                                            -   provide the SID to use for decrypting the masterkey (by default this is guessed from the path)
 
 
 Note: in most cases, just use *triage* if you're targeting user DPAPI secrets and *machinetriage* if you're going after SYSTEM DPAPI secrets.

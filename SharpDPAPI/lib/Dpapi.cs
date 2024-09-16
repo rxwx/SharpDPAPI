@@ -854,10 +854,13 @@ namespace SharpDPAPI
         }
 
         public static byte[] CreateDPAPIBlob(byte[] plaintext, byte[] masterKey, EncryptionAlgorithm algCrypt, 
-            HashAlgorithm algHash, Guid masterKeyGuid, byte[] entropy = null, string description = "")
+            HashAlgorithm algHash, Guid masterKeyGuid, byte[] entropy = null, string description = "", bool isLocalMachine = false)
         {
             var descBytes = string.IsNullOrEmpty(description) ? 
                 new byte[2] : Encoding.Unicode.GetBytes(description);
+
+            var flags = 0;
+            flags |= isLocalMachine ? 0x4 : 0; // CRYPTPROTECT_LOCAL_MACHINE
 
             var saltBytes = GetRandomBytes(32); // Default salt length (TODO: check)
             var hmacKeyLen = 0; // Default HMAC key length (TODO: check)
@@ -950,7 +953,6 @@ namespace SharpDPAPI
             offset += 16;
 
             // Flags
-            var flags = 0;
             Array.Copy(BitConverter.GetBytes(flags), 0, blobBytes, offset, 4);
             offset += 4;
 
